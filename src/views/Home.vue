@@ -31,7 +31,7 @@
                   :src="'./image/icon/' + (ispathActive == '/' + item.path ? '_' : '') + item.path + '.png'"
                   :alt="item.authname"
                 />
-                <span>{{ item.authname }}</span>
+                <span class="_isactive">{{ item.authname }}</span>
               </template>
             </el-menu-item>
           </el-menu>
@@ -137,7 +137,7 @@ export default {
 
 .aside-con {
   // background-color: var(--skinColor);
-  @media only screen and (max-width:800px) {
+  @media only screen and (max-width: 800px) {
     display: none;
   }
   .el-menu {
@@ -184,5 +184,9 @@ export default {
     vertical-align: middle;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   }
+}
+
+._isactive {
+  color: var(--fontColor);
 }
 </style>>

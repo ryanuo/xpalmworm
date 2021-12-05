@@ -4,10 +4,14 @@
  * @Date: 2021-11-28 16:20:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-04 17:20:31
+ * @LastEditTime: 2021-12-05 19:40:12
  * @LastEditors: Harry
  */
 module.exports = {
+  publicPath: './', // 文件加载设置为相对路径
+  outputDir: 'dist',
+  // lintOnSave: false, // 关闭eslint
+  // productionSourceMap: true, // 生产环境下css 分离文件
   lintOnSave: false, //关闭eslint检测\
   devServer: {
     open: false,//项目启动时是否自动打开浏览器，我这里设置为false,不打开，true表示打开

@@ -4,7 +4,7 @@
  * @Date: 2021-11-29 10:34:41
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-05 14:27:33
+ * @LastEditTime: 2021-12-05 20:12:34
  * @LastEditors: Harry
 -->
 <template>
@@ -15,6 +15,7 @@
       <span>XPalmworm</span>
     </div>
     <!-- 右侧的四个部分 -->
+    <light-dark></light-dark>
     <el-row class="el-r">
       <el-col :span="3">
         <!-- <el-autocomplete
@@ -67,9 +68,12 @@
 <script lang="ts">
 import { menuList } from "@/utils/menuList"
 import { getCurrentInstance } from '@vue/runtime-core'
+import LightDark from "./LightDark.vue"
 export default {
   name: "DbHeader",
-  components: {},
+  components: {
+    LightDark
+  },
   setup() {
     // @ts-ignore
     const { ctx } = getCurrentInstance()

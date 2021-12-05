@@ -66,12 +66,14 @@ body {
 }
 
 .el-card.is-always-shadow, .el-card.is-hover-shadow:focus, .el-card.is-hover-shadow:hover {
-	box-shadow: 0 0 2px 0px rgba(255, 255, 255) !important;
+	box-shadow: var(--boxShadow) !important;
 	border-radius: 10px;
 	/* height: 100vh; */
 	border: 0;
 	height: 88vh;
 	overflow: auto;
+	background-color: var(--skinColor);
+	color: var(--fontColor);
 }
 
 
@@ -98,12 +100,22 @@ body {
 	margin: 20px 0;
 }
 
-.el-upload-dragger {
-	width: 600px !important;
+.el-upload .el-upload-dragger {
+	width: 600px;
+	background-color: var(--skinColor);
 }
 
 @media screen and (max-width:800px) {
-	.el-upload-dragger {
-		width: 300px !important;
+	.el-upload .el-upload-dragger {
+		width: 360px;
+		background-color: var(--skinColor);
 	}
+}
+
+.el-tabs__nav .el-tabs__item {
+	color: var(--fontColor);
+}
+
+.el-table__header-wrap .el-table th, .el-table__header-wrap .el-table tr {
+	background-color: var(--skinColor);
 }
