@@ -4,7 +4,7 @@
  * @Date: 2021-12-02 18:06:24
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-03 00:28:25
+ * @LastEditTime: 2021-12-05 21:31:01
  * @LastEditors: Harry
 -->
 <template>
@@ -50,7 +50,7 @@
       v-model:currentPage="currentPage"
       :page-sizes="[5, 10, 20, 50]"
       :page-size="pagesize"
-      layout="sizes, prev, pager, next,jumper"
+      layout="sizes, prev, pager, next, jumper"
       @size-change="handleSizeChange"
       @current-change="currentChange"
       :total="total"

@@ -90,8 +90,9 @@ def api_list():
             else:
                 return json.dumps({"msg": "用户名或者邮箱已重复", "status_code": -1}, ensure_ascii=False)
 
+
 # 用户账户的激活
-@app.route('/isactive',methods=['POST',"GET","PUT"])
+@app.route('/isactive', methods=['POST', "GET", "PUT"])
 def isActive():
     if request.method == 'GET':
         msg = request.args.to_dict()
@@ -100,7 +101,7 @@ def isActive():
         WHERE email = %s and password=%s and isactive= %s
         '''
         status = MysqlHelper(self).cud(sql,
-                                       ('1',msg['email'],msg['password'],'0'))
+                                       ('1', msg['email'], msg['password'], '0'))
         if status['status_code'] == 1:
             return json.dumps({'msg': "您的账户已激活", 'status_code': 1})
         elif status['status_code'] == 0:
@@ -113,12 +114,15 @@ def isActive():
         else:
             comment = request.values.to_dict()
         activeUser(comment)
-        return json.dumps({'msg': "验证信息已发送",'status_code':1})
+        return json.dumps({'msg': "验证信息已发送", 'status_code': 1})
+
 
 # 获取新闻数据
-@app.route('/news', methods=['POST', "GET"])
+@app.route('/news', methods=['POST', "GET", 'DELETE'])
 def news_list():
+    # 资讯获取
     if request.method == 'GET':
+        # p = request.args.to_dict()
         key = request.args.get('key')
         pagesize = request.args.get('pagesize')
         pagenum = request.args.get('pagenum')
@@ -126,6 +130,18 @@ def news_list():
             return json.dumps({"msg": '参数有误', "status_code": -1})
         # print(ImmutableMultiDict(request.args).to_dict())
         return Cloud(key).databaseQuery(pagenum, pagesize)
+    # 增加数据
+    elif request.method == 'POST':
+        return json.dumps({"msg": "当前为Post请求", "status_code": 2}, ensure_ascii=False)
+    # 新闻删除操作
+    elif request.method == 'DELETE':
+        try:
+            content = request.get_json()
+            # print(ImmutableMultiDict(request.args).to_dict())
+            sql = "db.collection('%s').doc('%s').remove()" % (content['key'], content['_id'])
+            return Cloud(content['key']).databaseRemove(sql)
+        except:
+            return json.dumps({'msg': "删除失败", "status_code": -4})
     elif request.method == 'POST':
         return json.dumps({"msg": "当前为Post请求", "status_code": 2}, ensure_ascii=False)
 

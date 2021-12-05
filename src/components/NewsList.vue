@@ -4,7 +4,7 @@
  * @Date: 2021-11-28 21:41:04
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-02 18:19:28
+ * @LastEditTime: 2021-12-05 22:21:13
  * @LastEditors: Harry
 -->
 <template>
@@ -65,7 +65,10 @@
   <br />
   <el-pagination
     background
-    layout="prev, pager, next"
+    layout="sizes, prev, pager, next"
+    :page-sizes="[5, 10, 20, 50]"
+    :page-size="pagesize"
+    @size-change="handleSizeChange"
     @current-change="currentChange"
     :total="total"
   ></el-pagination>
@@ -84,6 +87,7 @@
 import { reactive, ref } from '@vue/reactivity'
 import { getCurrentInstance } from '@vue/runtime-core'
 import { zxlists } from '@/utils/zixunlists'
+import { ElMessage, ElMessageBox } from 'element-plus'
 export default {
   name: "NewsList",
   setup() {
@@ -92,6 +96,7 @@ export default {
     let pagenum = ref(1)
     let total = ref<number>(1)
     let tableData = ref([])
+    let pagesize = ref(5)
     // @ts-ignore
     const { ctx } = getCurrentInstance()
     const handleClick = async function (tab: string, event: string) {
@@ -104,7 +109,7 @@ export default {
         params: {
           key: activeName.value,
           pagenum: pagenum.value,
-          pagesize: 10
+          pagesize: pagesize.value
         }
       })
       if (res.status_code == 1) {
@@ -118,7 +123,7 @@ export default {
       dialogVisible.value = false
     }
     // 点击页码进行跳转
-    const currentChange = function (e:number) { 
+    const currentChange = function (e: number) {
       pagenum.value = e
       getList()
     }
@@ -126,12 +131,58 @@ export default {
     const clickTarget = function (link: string) {
       console.log(link);
     }
-    const editCurrentUser = function (id: string) {
+    const handleSizeChange = function (size: number) {
+      pagesize.value = size
+      getList()
+    }
+    const editCurrentUser = function (params: string) {
 
     }
     // 删除
-    const deleteUser = function (id: string) {
+    const deleteUser = function (params: string) {
+      ElMessageBox.confirm(
+        '你是否要删除该条资讯，删除之后无法恢复，望谨慎操作',
+        '删除该条资讯',
+        {
+          distinguishCancelAndClose: true,
+          confirmButtonText: 'Save',
+          cancelButtonText: 'Discard Changes',
+        }
+      )
+        .then(async () => {
+          const data = {
+            key: activeName.value,
+            // @ts-ignore
+            _id: params._id
+          }
+          const headers = {
+            "content-type": "application/json"
+          }
+          const { data: res } = await ctx.$http.delete('/proxy/news', { data }, headers)
+          if (res.status_code == 1) {
+            ElMessage({
+              type: 'success',
+              message: res.msg
+            })
+            getList()
+          } else {
+            ElMessage({
+              type: 'error',
+              message: res.msg
+            })
+          }
+          console.log(res);
 
+        })
+        .catch((action) => {
+          ElMessage({
+            type: 'info',
+            message:
+              action === 'cancel'
+                ? 'Changes discarded. Proceeding to a new route.'
+                : 'Stay in the current route',
+          })
+        })
     }
     // 定义一个获取数据的方法
     return {
@@ -146,7 +197,9 @@ export default {
       deleteUser,
       pagenum, // 页码
       total,
-      currentChange
+      currentChange,
+      pagesize,
+      handleSizeChange
     }
   }
 }
