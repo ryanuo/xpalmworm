@@ -1,7 +1,7 @@
 :root {
   --bgColor: #f5f6fd;
   --skinColor: #fff;
-  --boxShadow: #ccc;
+  --boxShadow: 0 0 2px 0px rgba(255, 255, 255);
   --themeColor: #2a61ff;
   --fontColor: #374258;
 }
