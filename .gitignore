@@ -2,7 +2,7 @@
 node_modules
 /dist
 cloud
-
+ts-admin
 # local env files
 .env.local
 .env.*.local

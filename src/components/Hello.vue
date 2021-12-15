@@ -4,25 +4,50 @@
  * @Date: 2021-11-29 13:24:10
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-05 13:24:02
+ * @LastEditTime: 2021-12-15 19:27:28
  * @LastEditors: Harry
 -->
 <template>
   <h2 class="h2_w">上传识别</h2>
+  <div v-if="!isShow">
+    <el-row class="el_img_res">
+      <el-col :span="12">
+        <div class="img_l">
+          <el-image
+            style="width: 80%;"
+            :src="srcList[0]"
+            :preview-src-list="srcList"
+            :initial-index="0"
+            :hide-on-click-modal="true"
+          ></el-image>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <div class="img_l">
+          <el-image
+            style="width: 80%;"
+            :src="srcList[1]"
+            :preview-src-list="srcList"
+            :initial-index="1"
+            :hide-on-click-modal="true"
+          ></el-image>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
   <el-upload
+    v-if="isShow"
     ref="upload"
-    :auto-upload="false"
+    :auto-upload="true"
     class="upload-demo"
     drag
     action
     :http-request="uploadFile"
-    list-type="picture"
-    :on-preview="handlePictureCardPreview"
+    :on-change="handleChangePic"
     accept=".jpg, .jpeg, .png"
-    :on-remove="handleRemove"
     :limit="1"
-    :on-exceed="onExceed"
   >
+    <!-- :on-exceed="onExceed" -->
     <div class="upload_f">
       <div class="up_svg">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" data-v-152cbb9b>
@@ -38,21 +63,55 @@
       <em>点击上传</em>
     </div>
   </el-upload>
+  <!-- 重新上传的窗口 -->
+  <el-button type="info" class="btn_re" v-if="!isShow">
+    <el-upload
+      id="el-upload"
+      ref="upload"
+      :auto-upload="true"
+      drag
+      action
+      :http-request="uploadFile"
+      :on-change="handleChangePic"
+      accept=".jpg, .jpeg, .png"
+      :limit="1"
+    ></el-upload>重新上传
+    <!-- :on-exceed="onExceed" -->
+  </el-button>
+  <!-- 第二个 按钮 -->
   <br />
-  <el-button type="info" @click="distinguishPhoto">点击识别</el-button>
   <!-- 预览图 -->
   <el-dialog v-model="dialogVisible">
     <img style="width:100%" :src="dialogImageUrl" />
   </el-dialog>
-  <h2 class="h2_w">识别结果展示</h2>
-  <div>
-    <img v-if="pre_res.length != 0" :src="'https://kc.mr90.top/getimg/image/' + pre_res" />
+  <div v-if="tableData.length !== 0">
+    <h2 class="h2_w">
+      识别结果展示
+      <span class="h2_item">
+        一共识别到
+        <em>{{ nums_len }}</em>
+        种,耗时
+        <em>{{ time_count }}</em>
+      </span>
+    </h2>
+    <el-table :data="tableData" stripe border>
+      <el-table-column label="#" type="index" />
+      <el-table-column prop="name" label="害虫名称" />
+      <el-table-column prop="nums" label="害虫数量" />
+      <el-table-column prop="max_rate" label="识别率max" />
+    </el-table>
+  </div>
+  <div v-else class="empty_">
+    <el-image src="/image/page/empty.svg" fit="cover"></el-image>
+    <span class="span_s">您还未上传图片，暂无记录</span>
   </div>
 </template>
 
 <script lang="ts">
 import { reactive, ref, toRefs } from '@vue/reactivity'
 import { getCurrentInstance } from '@vue/runtime-core'
+import { ElNotification } from 'element-plus'
+
 // import { defineComponent } from '@vue/runtime-core'
 // import { UploadFilled as upload } from '@element-plus/icons'
 export default {
@@ -64,8 +123,12 @@ export default {
     let dialogImageUrl = ref('')
     let srcRes = reactive({
       nums: 0,
-      pre_res: ''
+      srcList: ['0', '0'],
+      isShow: true,
+      nums_len: 0,
+      time_count: ''
     })
+    let tableData = ref([])
     const uploadFile = async function (params: any) {
       console.log("uploadFile", params);
       const _file = params['file'];
@@ -76,52 +139,94 @@ export default {
       const headers = {
         "Content-Type": 'application/x-www-form-urlencoded'
       }
-      const { data: res } = await ctx.$http.post('/uploads', formData, headers)
-      srcRes.nums = res.nums
-      srcRes.pre_res = res.pre_res.split('/')[2]
-      if (res.nums) {
-        ctx.$message.success("识别成功！！！");
+      const { data: res } = await ctx.$http.post('/uploads/v5/detect', formData, headers)
+      // srcRes.nums = res.nums\
+      console.log(res[0]);
+      srcRes.srcList[1] = 'https://detect.mr90.top/' + res[0].out_file_img
+      srcRes.srcList[0] = getObjectURL(params['file'])
+      // clf
+      srcRes.isShow = false
+      srcRes.nums_len = res[0]['res_name_nums'].length
+      srcRes.time_count = res[0]['time_count']
+      for (let a of res[0]['res_name_nums']) {
+        a['max_rate'] = 0
+        for (let i of res[0]['recogn_rate']) {
+          if (i['rate'] >= a['max_rate'] && a['name'] == i['label']) {
+            a['max_rate'] = i['rate']
+          }
+        }
       }
+      tableData.value = res[0]['res_name_nums']
+      success_respone()
+      // if (res.nums) {
+      //  
+      // ctx.$message.success("识别成功！！！");
+      // }
       // if (!isLt2M) {
       //   ctx.$message.error("请上传2M以下的图片");
       //   return false;
       // }
       // ctx.$refs.upload.clearFiles()
     }
+    const success_respone = () => {
+      ElNotification({
+        title: '通知',
+        message: '识别成功,点击图片可预览!',
+        type: 'success',
+      })
+    }
+    // 图片预览小哥哥
+    const previewImg = function (file: string) {
+      dialogVisible.value = true
+      dialogImageUrl.value = file
+    }
     // 文件限制超出
     const onExceed = function (files: any, fileList: any) {
       ctx.$message.error('移除第一张,可继续识别')
       // ctx.$refs.upload.clearFiles()
     }
+
     const submitData = function () {
       ctx.$refs.upload.submit();
     }
-    const previewFile = function (file: AnalyserOptions) {
+    const previewFile = function (file: any) {
       console.log(1);
-
     }
-    const handlePictureCardPreview = function (file: AnalyserOptions) {
-      dialogVisible.value = true
+    const getObjectURL = function (file: any) {
+      var url = null;
       // @ts-ignore
-      dialogImageUrl.value = file.url
+      if (window.createObjcectURL != undefined) {
+        // @ts-ignore
+        url = window.createOjcectURL(file);
+      } else if (window.URL != undefined) {
+        url = window.URL.createObjectURL(file);
+      } else if (window.webkitURL != undefined) {
+        url = window.webkitURL.createObjectURL(file);
+      }
+      return url;
     }
-    const handleRemove = function (file: AnalyserOptions) {
-      srcRes.nums = 0
-      srcRes.pre_res = ''
+    const handleChangePic = function (file: any, filelist: any) {
+      // console.log(file, filelist);
+      if (filelist.length >= 1) {
+        filelist.splice(0, 1);
+      }
     }
+    // 重新上传
     const distinguishPhoto = function () {
       let len = ctx.$refs.upload.uploadFiles.length
       if (len == 0) {
         return ctx.$message.error('您还未上传图片!!')
+      } else {
+        ctx.$refs.upload.submit();
+        ctx.$refs.upload.uploadFiles = []
       }
-      ctx.$refs.upload.submit();
     }
 
     return {
       uploadFile, submitData, onExceed,
       previewFile, dialogVisible, dialogImageUrl,
-      handleRemove, handlePictureCardPreview,
-      distinguishPhoto, ...toRefs(srcRes)
+      distinguishPhoto, ...toRefs(srcRes), getObjectURL, previewImg,
+      tableData, handleChangePic
     }
   }
 }
@@ -129,10 +234,11 @@ export default {
 
 <style lang="scss" scoped>
 .upload-demo {
-  width: 600px;
-  @media only screen and(max-width:800px) {
-    width: 300px;
-  }
+  // width: 600px;
+  width: 100%;
+  // @media only screen and(max-width:800px) {
+  //   width: 1%%;
+  // }
 }
 .upload_f {
   width: 100%;
@@ -143,11 +249,63 @@ export default {
   justify-content: center;
   align-items: center;
   .up_svg {
-    width: 130px;
+    width: 120px;
     height: 100%;
     // position: absolute;
     // top: 50%;
     // left: 50%;
   }
+}
+.el_img_res {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .img_l {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img{
+      width: 100%;
+      border-radius: 10px;
+    }
+  }
+}
+.btn_re {
+  margin: 10px 0;
+}
+.handle_btn {
+  display: flex;
+  padding: 20px 0;
+}
+.el-row-btn {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+.h2_item {
+  font-size: 14px;
+  em {
+    color: var(--themeColor);
+  }
+}
+
+.empty_ {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.el-image {
+  padding: 50px 0;
+  width: 20%;
+  @media only screen and(max-width:800px) {
+    width: 40%;
+  }
+}
+
+.span_s {
+  color: var(--themeColor);
+  font-size: 10px;
 }
 </style>

@@ -4,7 +4,7 @@
  * @Date: 2021-11-28 16:20:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-05 19:40:12
+ * @LastEditTime: 2021-12-14 21:05:40
  * @LastEditors: Harry
  */
 module.exports = {
@@ -17,7 +17,8 @@ module.exports = {
     open: false,//项目启动时是否自动打开浏览器，我这里设置为false,不打开，true表示打开
     proxy: {
       '/proxy': {
-        target: 'http://localhost:5000', //对应自己的接口，代理地址修改后必须重启项目
+        // target: 'http://localhost:5000', //对应自己的接口，代理地址修改后必须重启项目
+        target: 'https://detect.mr90.top/', //对应自己的接口，代理地址修改后必须重启项目
         changeOrigin: true, //是否允许跨域
         pathRewrite: {
           // 重写路径，当我们在浏览器中看到请求的地址为：http://localhost:8080/api/user/userInfo 时
@@ -26,7 +27,8 @@ module.exports = {
         }
       },
       "/uploads": {
-        target: 'https://kc.mr90.top/predict_image', //对应自己的接口，代理地址修改后必须重启项目
+        // target: 'http://127.0.0.1:5001/', //对应自己的接口，代理地址修改后必须重启项目
+        target: 'https://detect.mr90.top/', //对应自己的接口，代理地址修改后必须重启项目
         changeOrigin: true, //是否允许跨域
         pathRewrite: {
           '^/uploads': ''
