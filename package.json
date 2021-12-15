@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "gh": "gh-pages -d dist"
+    "serve": "vue-cli-service serve --mode dev",
+    "build.test": "vue-cli-service build --mode test",
+    "build": "vue-cli-service build --mode pro",
+    "gh": "gh-pages -d dist-pro"
   },
   "dependencies": {
     "@element-plus/icons": "0.0.11",

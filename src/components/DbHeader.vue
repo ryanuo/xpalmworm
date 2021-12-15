@@ -4,7 +4,7 @@
  * @Date: 2021-11-29 10:34:41
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-05 20:12:34
+ * @LastEditTime: 2021-12-15 21:12:42
  * @LastEditors: Harry
 -->
 <template>
@@ -28,11 +28,11 @@
         <el-autocomplete class="inline-input" placeholder="搜索" />
       </el-col>
       <el-col :span="3" class="signed_img_w tada">
-        <img src="/image/icon/wenhao.png" />
+        <img src="image/icon/wenhao.png" />
         <span>帮助</span>
       </el-col>
       <el-col :span="3" class="signed_img_w tada left-border">
-        <img src="/image/icon/remind.png" />
+        <img src="image/icon/remind.png" />
         <span>消息</span>
       </el-col>
       <!-- 默认作者头像 -->
@@ -76,11 +76,11 @@ export default {
   },
   setup() {
     // @ts-ignore
-    const { ctx } = getCurrentInstance()
+    const { proxy } = getCurrentInstance()
     const menulist = menuList
     // 页面的跳转
     const clickMenu = function (path: string) {
-      ctx.$router.push('/' + path)
+      proxy.$router.push('/' + path)
     }
     return {
       menulist, clickMenu

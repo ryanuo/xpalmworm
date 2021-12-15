@@ -7,7 +7,7 @@
       <el-container>
         <el-aside :width="'200px'" class="aside-con">
           <div class="author_w">
-            <img src="/image/page/author.png" alt="掌虫后台" />
+            <img src="image/page/author.png" alt="掌虫后台" />
             <span>掌虫后台</span>
           </div>
           <el-menu
@@ -28,7 +28,7 @@
               <template #title>
                 <img
                   class="img_w"
-                  :src="'./image/icon/' + (ispathActive == '/' + item.path ? '_' : '') + item.path + '.png'"
+                  :src="'image/icon/' + (ispathActive == '/' + item.path ? '_' : '') + item.path + '.png'"
                   :alt="item.authname"
                 />
                 <span class="_isactive">{{ item.authname }}</span>

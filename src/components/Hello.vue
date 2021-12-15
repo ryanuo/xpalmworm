@@ -4,7 +4,7 @@
  * @Date: 2021-11-29 13:24:10
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-15 19:27:28
+ * @LastEditTime: 2021-12-15 22:37:10
  * @LastEditors: Harry
 -->
 <template>
@@ -42,9 +42,10 @@
     class="upload-demo"
     drag
     action
+    capture="camera"
     :http-request="uploadFile"
     :on-change="handleChangePic"
-    accept=".jpg, .jpeg, .png"
+    accept=".jpg, .png, .jpeg"
     :limit="1"
   >
     <!-- :on-exceed="onExceed" -->
@@ -73,7 +74,8 @@
       action
       :http-request="uploadFile"
       :on-change="handleChangePic"
-      accept=".jpg, .jpeg, .png"
+      capture="camera"
+      accept=".jpg, .png, .jpeg"
       :limit="1"
     ></el-upload>重新上传
     <!-- :on-exceed="onExceed" -->
@@ -102,7 +104,7 @@
     </el-table>
   </div>
   <div v-else class="empty_">
-    <el-image src="/image/page/empty.svg" fit="cover"></el-image>
+    <el-image src="image/page/empty.svg" fit="cover"></el-image>
     <span class="span_s">您还未上传图片，暂无记录</span>
   </div>
 </template>
@@ -118,7 +120,7 @@ export default {
   name: "Hello",
   setup() {
     // @ts-ignore
-    const { ctx } = getCurrentInstance()
+    const { proxy } = getCurrentInstance()
     let dialogVisible = ref(false)
     let dialogImageUrl = ref('')
     let srcRes = reactive({
@@ -139,7 +141,7 @@ export default {
       const headers = {
         "Content-Type": 'application/x-www-form-urlencoded'
       }
-      const { data: res } = await ctx.$http.post('/uploads/v5/detect', formData, headers)
+      const { data: res } = await proxy.$http.post('/v5/detect', formData, headers)
       // srcRes.nums = res.nums\
       console.log(res[0]);
       srcRes.srcList[1] = 'https://detect.mr90.top/' + res[0].out_file_img
@@ -160,13 +162,13 @@ export default {
       success_respone()
       // if (res.nums) {
       //  
-      // ctx.$message.success("识别成功！！！");
+      // proxy.$message.success("识别成功！！！");
       // }
       // if (!isLt2M) {
-      //   ctx.$message.error("请上传2M以下的图片");
+      //   proxy.$message.error("请上传2M以下的图片");
       //   return false;
       // }
-      // ctx.$refs.upload.clearFiles()
+      // proxy.$refs.upload.clearFiles()
     }
     const success_respone = () => {
       ElNotification({
@@ -182,12 +184,12 @@ export default {
     }
     // 文件限制超出
     const onExceed = function (files: any, fileList: any) {
-      ctx.$message.error('移除第一张,可继续识别')
-      // ctx.$refs.upload.clearFiles()
+      proxy.$message.error('移除第一张,可继续识别')
+      // proxy.$refs.upload.clearFiles()
     }
 
     const submitData = function () {
-      ctx.$refs.upload.submit();
+      proxy.$refs.upload.submit();
     }
     const previewFile = function (file: any) {
       console.log(1);
@@ -213,12 +215,12 @@ export default {
     }
     // 重新上传
     const distinguishPhoto = function () {
-      let len = ctx.$refs.upload.uploadFiles.length
+      let len = proxy.$refs.upload.uploadFiles.length
       if (len == 0) {
-        return ctx.$message.error('您还未上传图片!!')
+        return proxy.$message.error('您还未上传图片!!')
       } else {
-        ctx.$refs.upload.submit();
-        ctx.$refs.upload.uploadFiles = []
+        proxy.$refs.upload.submit();
+        proxy.$refs.upload.uploadFiles = []
       }
     }
 
@@ -265,7 +267,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    img{
+    img {
       width: 100%;
       border-radius: 10px;
     }

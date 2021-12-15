@@ -1,6 +1,6 @@
 <template>
   <el-form
-    ref="loginForm"
+    ref="loginForms"
     :model="loginUser"
     :rules="rules"
     label-width="100px"
@@ -14,7 +14,7 @@
     </el-form-item>
 
     <el-form-item>
-      <el-button @click="handleLogin('loginForm')" type="primary" class="submit-btn">提交</el-button>
+      <el-button @click="handleLogin('loginForms')" type="primary" class="submit-btn">提交</el-button>
     </el-form-item>
 
     <!-- 找回密码 -->
@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import Base64 from "@/utils/base64";
-import { ref, getCurrentInstance } from "vue";
+import { ref, getCurrentInstance, onMounted } from "vue";
 import { ElMessage, ElMessageBox } from 'element-plus';
 export default {
   props: {
@@ -44,7 +44,7 @@ export default {
   },
   setup() {
     // @ts-ignore
-    const { ctx } = getCurrentInstance();
+    const { proxy } = getCurrentInstance();
     const open = function (params: Object) {
       ElMessageBox.confirm(
         '你的账户还未激活，选择激活我们将给您的邮箱发送一个激活地址，进入邮箱中确认激活哦',
@@ -57,7 +57,7 @@ export default {
       )
         .then(async () => {
           let data = params
-          const { data: res } = await ctx.$http.put('/proxy/isactive', data)
+          const { data: res } = await proxy.$http.put('/isactive', data)
           if (res.status_code == 1) {
             ElMessage({
               type: 'success',
@@ -77,7 +77,7 @@ export default {
     }
     // 触发登录方法
     const handleLogin = (formName: string) => {
-      ctx.$refs[formName].validate((valid: boolean) => {
+      proxy.$refs[formName].validate((valid: boolean) => {
         if (valid) {
           FormData()
           // alert("submit!");
@@ -89,8 +89,8 @@ export default {
     };
     // 进行表单的提交
     const FormData = async function () {
-      const { email, password } = ctx.loginUser
-      const { data: res } = await ctx.$http.get('/proxy/api', {
+      const { email, password } = proxy.loginUser
+      const { data: res } = await proxy.$http.get('/api', {
         params: {
           email, password
         }
@@ -102,17 +102,21 @@ export default {
             res.data[i] = bs.encode(res.data[i]) // 进行加密处理
           }
         }
-        ctx.$message.success(res.msg)
-        ctx.$cookie.setCookie(email, '')
+        proxy.$message.success(res.msg)
+        proxy.$cookie.setCookie(email, '')
         localStorage.setItem('token', JSON.stringify(res.data))
-        ctx.$router.replace('/home')
+        proxy.$router.replace('/home')
       } else if (res.status_code == -2) {
         open({ email, password })
       }
       else {
-        ctx.$message.error(res.msg);
+        proxy.$message.error(res.msg);
       }
     }
+
+    onMounted(() => {
+      console.log(proxy);
+    })
 
     return { handleLogin, open };
   },

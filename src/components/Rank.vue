@@ -4,7 +4,7 @@
  * @Date: 2021-12-02 18:06:24
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-05 21:31:01
+ * @LastEditTime: 2021-12-15 20:33:33
  * @LastEditors: Harry
 -->
 <template>
@@ -65,7 +65,7 @@ export default {
   setup() {
     // 获取数据
     // @ts-ignore
-    const { ctx } = getCurrentInstance()
+    const { proxy } = getCurrentInstance()
     const fn = reactive({
       editCurrentUser: function (key: Object) { },
       deleteUser: function (key: Object) { },
@@ -88,7 +88,7 @@ export default {
         pagesize: fn.pagesize,
         pagenum: fn.currentPage
       }
-      const { data: res } = await ctx.$http.get('/proxy/rank', { params })
+      const { data: res } = await proxy.$http.get('/rank', { params })
       if (res.status_code == 1) {
         fn.tableData = res.list.data
         fn.total = res.list.pager.Total

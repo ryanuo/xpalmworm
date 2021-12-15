@@ -4,7 +4,7 @@
  * @Date: 2021-11-28 21:41:04
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-05 22:21:13
+ * @LastEditTime: 2021-12-15 20:32:38
  * @LastEditors: Harry
 -->
 <template>
@@ -98,14 +98,14 @@ export default {
     let tableData = ref([])
     let pagesize = ref(5)
     // @ts-ignore
-    const { ctx } = getCurrentInstance()
+    const { proxy } = getCurrentInstance()
     const handleClick = async function (tab: string, event: string) {
       getList()
     }
     // 获取数据列表
     const getList = async function () {
       // activeName.value
-      const { data: res } = await ctx.$http.get('/proxy/news', {
+      const { data: res } = await proxy.$http.get('/news', {
         params: {
           key: activeName.value,
           pagenum: pagenum.value,
@@ -158,7 +158,7 @@ export default {
           const headers = {
             "content-type": "application/json"
           }
-          const { data: res } = await ctx.$http.delete('/proxy/news', { data }, headers)
+          const { data: res } = await proxy.$http.delete('/news', { data }, headers)
           if (res.status_code == 1) {
             ElMessage({
               type: 'success',

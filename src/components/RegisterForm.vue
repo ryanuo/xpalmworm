@@ -49,17 +49,17 @@ export default {
   },
   setup(prop: any) {
     // @ts-ignore
-    const { ctx } = getCurrentInstance();
+    const { proxy } = getCurrentInstance();
     const handleRegister = (formName: string) => {
-      ctx.$refs[formName].validate(async (valid: boolean) => {
+      proxy.$refs[formName].validate(async (valid: boolean) => {
         if (valid) {
-          const { data: res } = await ctx.$http.post('/proxy/api', {
+          const { data: res } = await proxy.$http.post('/api', {
             data: prop.registerUser
           })
           if (res.status_code == 1) {
-            ctx.$message.success(res.msg)
+            proxy.$message.success(res.msg)
           } else {
-            ctx.$message.error(res.msg)
+            proxy.$message.error(res.msg)
           }
         } else {
           console.log("error submit!!");

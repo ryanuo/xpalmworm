@@ -11,7 +11,8 @@ import Cookie from './utils/cookieConfig'
 const app = createApp(App)
 
 // 全局挂载axios
-// axios.defaults.baseURL = 'http://localhost:5000'
+console.log(process.env.VUE_APP_URL);
+axios.defaults.baseURL = process.env.VUE_APP_URL
 app.config.globalProperties.$http = axios;
 app.config.globalProperties.$cookie = Cookie;
 

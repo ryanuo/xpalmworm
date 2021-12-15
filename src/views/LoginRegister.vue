@@ -41,7 +41,7 @@ export default {
   components: { LoginForm, RegisterForm },
   setup() {
     // @ts-ignore
-    const { ctx } = getCurrentInstance();
+    const { proxy } = getCurrentInstance();
     const signUpMode = ref<boolean>(false);
 
     return {
@@ -373,9 +373,9 @@ export default {
   .panel .content {
     padding: 0.5rem 1rem;
   }
-  .container {
-    padding: 1.5rem;
-  }
+  /* .container {
+    padding: -1.5rem 0;
+  } */
 
   .container:before {
     bottom: 72%;
