@@ -1,19 +1,10 @@
 <!--
  * @Description: 
  * @Author: Harry
- * @Date: 2021-12-16 12:53:28
- * @Url: https://u.mr90.top
- * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-17 18:22:02
- * @LastEditors: Harry
--->
-<!--
- * @Description: 
- * @Author: Harry
  * @Date: 2021-12-02 18:06:24
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-15 20:33:33
+ * @LastEditTime: 2021-12-17 22:45:53
  * @LastEditors: Harry
 -->
 <template>
@@ -82,8 +73,6 @@ export default {
     let activeName = ref('草本害虫')
     let melist = ref(melists)
     const fn = reactive({
-      editCurrentUser: function (key: Object) { },
-      deleteUser: function (key: Object) { },
       currentPage: 1,
       tableData: [],
       pagesize: 5,
@@ -114,6 +103,15 @@ export default {
         console.log(fn.tableData);
       }
     }
+    const editCurrentUser = function (key: Object) { }
+    const deleteUser = function (key: Object) {
+      console.log(key);
+      const data = {
+        // @ts-ignore
+        pid: key['pid']
+      }
+      proxy.$http.delete('/insects', { data })
+    }
     onMounted(() => {
       // 获取数据
       // console.log('object');
@@ -123,6 +121,7 @@ export default {
       ...toRefs(fn),
       handleSizeChange,
       currentChange,
+      editCurrentUser, deleteUser,
       activeName, handleClick, melist
     }
   }

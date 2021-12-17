@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-// import $cookie from '../utils/cookieConfig'
+import $cookie from '@/utils/samll/cookieConfig'
 
 const routes = [
   {
@@ -68,10 +68,12 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // console.log($cookie.getCookie('iui9@qq.com'));
   if (to.path === '/login') return next()
   const token = localStorage.getItem('token')
   if (!token) return next('/login')
+  const { email: a } = JSON.parse(token as any)
+  const cookie = $cookie.getCookie('e_id')
+  if (!token || a !== cookie) return next('/login')
   next()
 })
 export default router

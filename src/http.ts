@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ElLoading } from 'element-plus';
-
-
+axios.defaults.withCredentials = true
 let loading: any;
 
 const startLoading = () => {

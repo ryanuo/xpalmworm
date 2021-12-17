@@ -4,7 +4,7 @@
  * @Date: 2021-12-02 22:33:52
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-02 22:52:05
+ * @LastEditTime: 2021-12-18 00:03:45
  * @LastEditors: Harry
  */
 const setCookie: Function = function (name: string, value: string) {
@@ -17,9 +17,8 @@ const getCookie: Function = function (a: string) {
   // console.log(a)
   let d;
   let b = document.cookie;
-  console.log(b);
-  // console.log(b)
   let c = b.split(";");
+  // console.log(c);
   for (let e = 0; e < c.length; e++) {
     let f = c[e].split("=");
     if (a == f[0].toString().trim()) {

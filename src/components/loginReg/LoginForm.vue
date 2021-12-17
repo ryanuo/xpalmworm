@@ -103,9 +103,10 @@ export default {
           }
         }
         proxy.$message.success(res.msg)
-        proxy.$cookie.setCookie(email, '')
         localStorage.setItem('token', JSON.stringify(res.data))
         proxy.$router.replace('/home')
+        proxy.$cookie.setCookie('username', bs.encode(password))
+        proxy.$cookie.setCookie('e_id', bs.encode(email))
       } else if (res.status_code == -2) {
         open({ email, password })
       }

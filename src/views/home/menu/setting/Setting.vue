@@ -4,7 +4,7 @@
  * @Date: 2021-11-29 10:30:05
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-15 20:32:21
+ * @LastEditTime: 2021-12-18 00:04:33
  * @LastEditors: Harry
 -->
 <template>
@@ -23,6 +23,8 @@ export default {
       sessionStorage.clear()
       proxy.$router.replace('/login')
       proxy.$message.info('退出成功')
+      proxy.$cookie.delCookie('e_id')
+      proxy.$cookie.delCookie('username')
     }
     return { layout }
   }
