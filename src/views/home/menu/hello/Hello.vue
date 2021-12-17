@@ -4,7 +4,7 @@
  * @Date: 2021-11-29 13:24:10
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-15 22:37:10
+ * @LastEditTime: 2021-12-16 12:39:52
  * @LastEditors: Harry
 -->
 <template>
@@ -133,6 +133,7 @@ export default {
     let tableData = ref([])
     const uploadFile = async function (params: any) {
       console.log("uploadFile", params);
+      const urlback = process.env.NODE_ENV == 'dev' ? 'http://localhost:5000/' : "https://detect.mr90.top/";
       const _file = params['file'];
       // const isLt2M = _file.size / 1024 / 1024 < 2;
       // 通过 FormData 对象上传文件
@@ -142,9 +143,7 @@ export default {
         "Content-Type": 'application/x-www-form-urlencoded'
       }
       const { data: res } = await proxy.$http.post('/v5/detect', formData, headers)
-      // srcRes.nums = res.nums\
-      console.log(res[0]);
-      srcRes.srcList[1] = 'https://detect.mr90.top/' + res[0].out_file_img
+      srcRes.srcList[1] = urlback + res[0].out_file_img
       srcRes.srcList[0] = getObjectURL(params['file'])
       // clf
       srcRes.isShow = false

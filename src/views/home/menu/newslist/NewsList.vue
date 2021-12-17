@@ -4,7 +4,7 @@
  * @Date: 2021-11-28 21:41:04
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-15 20:32:38
+ * @LastEditTime: 2021-12-16 16:03:13
  * @LastEditors: Harry
 -->
 <template>
@@ -86,7 +86,7 @@
 <script lang="ts">
 import { reactive, ref } from '@vue/reactivity'
 import { getCurrentInstance } from '@vue/runtime-core'
-import { zxlists } from '@/utils/zixunlists'
+import { zxlists } from '@/utils/samll/zixunlists'
 import { ElMessage, ElMessageBox } from 'element-plus'
 export default {
   name: "NewsList",

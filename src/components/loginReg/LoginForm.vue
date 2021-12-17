@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import Base64 from "@/utils/base64";
+import Base64 from "@/utils/samll/base64";
 import { ref, getCurrentInstance, onMounted } from "vue";
 import { ElMessage, ElMessageBox } from 'element-plus';
 export default {

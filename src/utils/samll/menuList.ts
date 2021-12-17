@@ -4,7 +4,7 @@
  * @Date: 2021-11-28 20:53:11
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-02 18:04:54
+ * @LastEditTime: 2021-12-16 12:52:30
  * @LastEditors: Harry
  */
 // 菜单列表
@@ -33,6 +33,11 @@ const menuList: MenuList[] = [
     authname: "收藏管理",
     path: "collection",
     // children: []
+  },
+  {
+    id: 7,
+    authname: "病虫列表",
+    path: "med1",
   },
   {
     id: 4,

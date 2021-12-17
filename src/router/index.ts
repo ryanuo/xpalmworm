@@ -10,37 +10,42 @@ const routes = [
     path: '/home',
     name: 'Home',
     redirect: "/hello",
-    component: () => import('../views/Home.vue'),
+    component: () => import('../views/home/Home.vue'),
     children: [
       {
         path: "/news",
         name: 'News',
-        component: () => import('../components/NewsList.vue')
+        component: () => import('../views/home/menu/newslist/NewsList.vue')
       },
       {
         path: "/hello",
         name: 'Hello',
-        component: () => import('../components/Hello.vue')
+        component: () => import('../views/home/menu/hello/Hello.vue')
       },
       {
         path: "/collection",
         name: 'Collection',
-        component: () => import('../components/Collection.vue')
+        component: () => import('../views/home/menu/collection/Collection.vue')
+      },
+      {
+        path: "/med1",
+        name: 'Med1',
+        component: () => import('../views/home/menu/med1/Med1.vue')
       },
       {
         path: "/user",
         name: 'User',
-        component: () => import('../components/User.vue')
+        component: () => import('../views/home/menu/user/User.vue')
       },
       {
         path: "/rank",
         name: 'Rank',
-        component: () => import('../components/Rank.vue')
+        component: () => import('../views/home/menu/rank/Rank.vue')
       },
       {
         path: "/setting",
         name: 'Setting',
-        component: () => import('../components/Setting.vue')
+        component: () => import('../views/home/menu/setting/Setting.vue')
       },
     ]
   },

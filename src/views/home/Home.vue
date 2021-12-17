@@ -47,9 +47,9 @@
 </template>
 <script lang="ts">
 import { ref, getCurrentInstance, reactive, onMounted } from "vue";
-import { menuList } from '@/utils/menuList'
+import { menuList } from '@/utils/samll/menuList'
 // import debounce_merge from "@/utils/debounce";
-import DbHeader from '@/components/DbHeader.vue'
+import DbHeader from '@/components/header/DbHeader.vue'
 export default {
   name: "Home",
   components: {

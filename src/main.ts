@@ -6,12 +6,11 @@ import ElementPlus from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
 import axios from './http'
 import 'animate.css';
-import Cookie from './utils/cookieConfig'
+import Cookie from './utils/samll/cookieConfig'
 
 const app = createApp(App)
 
 // 全局挂载axios
-console.log(process.env.VUE_APP_URL);
 axios.defaults.baseURL = process.env.VUE_APP_URL
 app.config.globalProperties.$http = axios;
 app.config.globalProperties.$cookie = Cookie;

@@ -32,10 +32,10 @@
 </template>
 <script lang="ts">
 import { ref, getCurrentInstance } from "vue";
-import { loginUser, rules } from "@/utils/loginValidators";
-import { registerUser, registerRules } from "@/utils/registerValidators";
-import LoginForm from "@/components/LoginForm.vue";
-import RegisterForm from "@/components/RegisterForm.vue";
+import { loginUser, rules } from "@/utils/samll/loginValidators";
+import { registerUser, registerRules } from "@/utils/samll/registerValidators";
+import LoginForm from "@/components/loginReg/LoginForm.vue";
+import RegisterForm from "@/components/loginReg/RegisterForm.vue";
 export default {
   name: "LoginRegister",
   components: { LoginForm, RegisterForm },

@@ -4,7 +4,7 @@
  * @Date: 2021-12-05 20:03:28
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-05 20:29:05
+ * @LastEditTime: 2021-12-16 16:02:28
  * @LastEditors: Harry
 -->
 <template>
@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { ref } from '@vue/reactivity'
-import debounce_merge from '@/utils/debounce'
+import debounce_merge from '@/utils/samll/debounce'
 export default {
   name: "LightDark",
   setup() {

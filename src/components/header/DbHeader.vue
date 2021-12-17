@@ -4,7 +4,7 @@
  * @Date: 2021-11-29 10:34:41
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-15 21:12:42
+ * @LastEditTime: 2021-12-16 16:03:42
  * @LastEditors: Harry
 -->
 <template>
@@ -66,9 +66,9 @@
 </template>
 
 <script lang="ts">
-import { menuList } from "@/utils/menuList"
+import { menuList } from "@/utils/samll/menuList"
 import { getCurrentInstance } from '@vue/runtime-core'
-import LightDark from "./LightDark.vue"
+import LightDark from "./components/LightDark.vue"
 export default {
   name: "DbHeader",
   components: {

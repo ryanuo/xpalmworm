@@ -4,6 +4,10 @@
   --boxShadow: 0 0 2px 0px rgba(255, 255, 255);
   --themeColor: #2a61ff;
   --fontColor: #374258;
+  --tableColor1: #fff;
+  --tableColor2: #FAFAFA;
+  --tableFontc: #1f2326;
+  --tableLeaf: #EBEEF5;
 }
 body {
   background-color: var(--bgColor);
