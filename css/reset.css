@@ -156,6 +156,37 @@ body {
 	opacity: 0;
 }
 
-.el-image__inner{
+.el-image__inner {
 	border-radius: 10px;
+}
+
+/* 表格 */
+div.el-table th, div.el-table tr {
+	background-color: var(--tableColor1);
+}
+
+div.el-table--striped .el-table__body tr.el-table__row--striped td {
+	background-color: var(--tableColor2)
+}
+
+div.el-table {
+	color: var(--tableFontc);
+}
+
+div.el-table thead {
+	color: var(--tableFontc);
+}
+
+div.el-table td, div.el-table th.is-leaf {
+	border-bottom: 1px solid var(--tableLeaf);
+}
+
+div.el-table--border td, div.el-table--border th, div.el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+	border-right: 1px solid var(--tableLeaf);
+}
+
+div .el-image[data-v-ca63be76] .el-image__preview {
+	width: 100%;
+	height: 80px;
+	border-radius: 10%;
 }
