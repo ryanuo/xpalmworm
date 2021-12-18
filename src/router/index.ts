@@ -71,9 +71,11 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/login') return next()
   const token = localStorage.getItem('token')
   if (!token) return next('/login')
-  const { email: a } = JSON.parse(token as any)
-  const cookie = $cookie.getCookie('e_id')
-  if (!token || a !== cookie) return next('/login')
+  const { email: e_id, username: u_id } = JSON.parse(token as any)
+  const e = $cookie.getCookie('e_id')
+  const u = $cookie.getCookie('u_id')
+  // console.log(!token || e_id !== e || u_id !== u);
+  if (!token || e_id !== e || u_id !== u) return next('/login')
   next()
 })
 export default router

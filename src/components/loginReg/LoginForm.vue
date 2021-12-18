@@ -102,11 +102,12 @@ export default {
             res.data[i] = bs.encode(res.data[i]) // 进行加密处理
           }
         }
-        proxy.$message.success(res.msg)
         localStorage.setItem('token', JSON.stringify(res.data))
+        // console.log(res.data.username);
+        proxy.$cookie.setCookie('e_id', res.data.email)
+        proxy.$cookie.setCookie('u_id', res.data.username)
+        proxy.$message.success(res.msg)
         proxy.$router.replace('/home')
-        proxy.$cookie.setCookie('username', bs.encode(password))
-        proxy.$cookie.setCookie('e_id', bs.encode(email))
       } else if (res.status_code == -2) {
         open({ email, password })
       }
@@ -116,7 +117,7 @@ export default {
     }
 
     onMounted(() => {
-      console.log(proxy);
+      // console.log(proxy);
     })
 
     return { handleLogin, open };

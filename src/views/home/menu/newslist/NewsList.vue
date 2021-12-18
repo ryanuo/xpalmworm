@@ -4,7 +4,7 @@
  * @Date: 2021-11-28 21:41:04
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-16 16:03:13
+ * @LastEditTime: 2021-12-18 23:09:21
  * @LastEditors: Harry
 -->
 <template>
@@ -116,7 +116,7 @@ export default {
         tableData.value = res.list.data
         total.value = Math.floor(res.list.pager.Total)
       }
-      console.log(res);
+      // console.log(res);
     }
     getList()
     const handleClose = function () {
@@ -171,7 +171,7 @@ export default {
               message: res.msg
             })
           }
-          console.log(res);
+          // console.log(res);
 
         })
         .catch((action) => {

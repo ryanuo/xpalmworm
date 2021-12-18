@@ -172,12 +172,25 @@ div.el-table--striped .el-table__body tr.el-table__row--striped td {
 div.el-table {
 	color: var(--tableFontc);
 }
-div.el-table thead{
+
+div.el-table thead {
 	color: var(--tableFontc);
 }
-div.el-table td, div.el-table th.is-leaf{
+
+div.el-table td, div.el-table th.is-leaf {
 	border-bottom: 1px solid var(--tableLeaf);
 }
-div.el-table--border td, div.el-table--border th, div.el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed{
+
+div.el-table--border td, div.el-table--border th, div.el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
 	border-right: 1px solid var(--tableLeaf);
+}
+
+div .el-image[data-v-ca63be76] .el-image__preview {
+	width: 100%;
+	height: 80px;
+	border-radius: 10%;
+}
+
+div.el-image-viewer__actions{
+	z-index: 20000;
 }

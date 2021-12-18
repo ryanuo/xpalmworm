@@ -4,7 +4,7 @@
  * @Date: 2021-12-02 18:06:24
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-17 22:45:53
+ * @LastEditTime: 2021-12-18 23:08:23
  * @LastEditors: Harry
 -->
 <template>
@@ -15,13 +15,31 @@
       <el-tab-pane v-for="item in melist" :key="item.uid" :label="item.label" :name="item.name">
         <el-table :data="tableData" stripe style="width: 100%" border>
           <el-table-column align="center" type="index" label="#" width="50" />
-          <!-- <el-table-column align="center" label="头像" width="100">
-        <template #default="props">
-          <img v-if="props.row.pest_name" class="cover_w" :src="props.row.userInfo.avatarUrl" />
-        </template>
-          </el-table-column>-->
+          <el-table-column align="center" label="图像" width="100">
+            <template #default="props">
+              <el-image
+                v-if="props.row.pest_name"
+                :src="url_f + props.row.pest_name + '.jpg'"
+                :preview-src-list="srcList"
+                :hide-on-click-modal="false"
+                :initial-index="1"
+                @click.stop="handleClickItem"
+              ></el-image>
+            </template>
+            <!-- <img
+                v-if="props.row.pest_name"
+                class="cover_w"
+                :src=""
+            />-->
+          </el-table-column>
           <el-table-column align="center" prop="pest_name" label="害虫名称" width="120" />
-          <el-table-column align="center" prop="cate_sk" label="类别" width="140" />
+          <el-table-column align="center" prop="cate_sk" label="类别" width="150">
+            <template #default="props">
+              <!-- {{props.row.cate_sk}} -->
+              <el-tag type="success" v-if="props.row.cate_sk">{{ props.row.cate_sk.split(',')[0] }}</el-tag>
+              <el-tag v-if="props.row.cate_sk">{{ fg(props.row.cate_sk, ',', 1) }}</el-tag>
+            </template>
+          </el-table-column>
           <el-table-column align="center" prop="harm_host" label="危害寄主" width="260" />
           <el-table-column align="center" prop="harm_feat" label="危害特点" />
           <el-table-column align="center" prop="control_measures" label="防治措施" />
@@ -62,8 +80,9 @@
 </template>
 
 <script lang="ts">
+import { handleClickItem } from '@/utils/samll/maskdia'
 import { melists } from '@/utils/samll/zixunlists'
-import { getCurrentInstance, onMounted, reactive, ref, toRefs } from "@vue/runtime-core"
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from "@vue/runtime-core"
 export default {
   name: "Rank",
   setup() {
@@ -76,8 +95,12 @@ export default {
       currentPage: 1,
       tableData: [],
       pagesize: 5,
-      total: 0
+      total: 0,
+      srcList: []
     })
+    // 图片的链接地址
+    const url_f = process.env.NODE_ENV == 'dev' ? 'http://192.168.1.100:5000/static/images/' : 'https://detect.mr90.top/static/images/'
+    // console.log(process.env.NODE_ENV);
     const handleClick = async function (tab: string, event: string) {
       getMedList()
     }
@@ -85,10 +108,12 @@ export default {
       fn.pagesize = size
       getMedList()
     }
+
     const currentChange = function (num: number) {
       fn.currentPage = num
       getMedList()
     }
+
     const getMedList = async function () {
       const params = {
         key: activeName.value,
@@ -96,11 +121,10 @@ export default {
         pagenum: fn.currentPage
       }
       const { data: res } = await proxy.$http.get('/insects', { params })
-      console.log(res);
       if (res.status_code == 1) {
         fn.tableData = res.data
         fn.total = res.total
-        console.log(fn.tableData);
+        fn.srcList = res.data.map((v: any) => url_f + v.pest_name + '.jpg')
       }
     }
     const editCurrentUser = function (key: Object) { }
@@ -112,6 +136,11 @@ export default {
       }
       proxy.$http.delete('/insects', { data })
     }
+    const fg = computed(() => {
+      return function (str: string, format: string, index: number) {
+        return str.split(format)[index]
+      }
+    })
     onMounted(() => {
       // 获取数据
       // console.log('object');
@@ -122,7 +151,7 @@ export default {
       handleSizeChange,
       currentChange,
       editCurrentUser, deleteUser,
-      activeName, handleClick, melist
+      activeName, handleClick, melist, fg, url_f, handleClickItem
     }
   }
 }
@@ -134,5 +163,13 @@ export default {
   height: 80px;
   border-radius: 50%;
   color: #983536;
+}
+div el-image {
+  img.el-image__preview {
+    width: 100%;
+    height: 80px;
+    border-radius: 50%;
+    // color: #983536;
+  }
 }
 </style>

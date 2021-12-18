@@ -4,7 +4,7 @@
  * @Date: 2021-11-29 13:24:10
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-16 12:39:52
+ * @LastEditTime: 2021-12-18 21:29:07
  * @LastEditors: Harry
 -->
 <template>
@@ -18,7 +18,7 @@
             :src="srcList[0]"
             :preview-src-list="srcList"
             :initial-index="0"
-            :hide-on-click-modal="true"
+            @click.stop="handleClickItem"
           ></el-image>
         </div>
       </el-col>
@@ -30,6 +30,7 @@
             :preview-src-list="srcList"
             :initial-index="1"
             :hide-on-click-modal="true"
+            @click.stop="handleClickItem"
           ></el-image>
         </div>
       </el-col>
@@ -113,7 +114,7 @@
 import { reactive, ref, toRefs } from '@vue/reactivity'
 import { getCurrentInstance } from '@vue/runtime-core'
 import { ElNotification } from 'element-plus'
-
+import { handleClickItem } from '@/utils/samll/maskdia'
 // import { defineComponent } from '@vue/runtime-core'
 // import { UploadFilled as upload } from '@element-plus/icons'
 export default {
@@ -143,22 +144,27 @@ export default {
         "Content-Type": 'application/x-www-form-urlencoded'
       }
       const { data: res } = await proxy.$http.post('/v5/detect', formData, headers)
-      srcRes.srcList[1] = urlback + res[0].out_file_img
-      srcRes.srcList[0] = getObjectURL(params['file'])
-      // clf
-      srcRes.isShow = false
-      srcRes.nums_len = res[0]['res_name_nums'].length
-      srcRes.time_count = res[0]['time_count']
-      for (let a of res[0]['res_name_nums']) {
-        a['max_rate'] = 0
-        for (let i of res[0]['recogn_rate']) {
-          if (i['rate'] >= a['max_rate'] && a['name'] == i['label']) {
-            a['max_rate'] = i['rate']
+      console.log(res);
+      if (res.status_code !== -2) {
+        srcRes.srcList[1] = urlback + res[0].out_file_img
+        srcRes.srcList[0] = getObjectURL(params['file'])
+        // clf
+        srcRes.isShow = false
+        srcRes.nums_len = res[0]['res_name_nums'].length
+        srcRes.time_count = res[0]['time_count']
+        for (let a of res[0]['res_name_nums']) {
+          a['max_rate'] = 0
+          for (let i of res[0]['recogn_rate']) {
+            if (i['rate'] >= a['max_rate'] && a['name'] == i['label']) {
+              a['max_rate'] = i['rate']
+            }
           }
         }
+        tableData.value = res[0]['res_name_nums']
+        success_respone(res.msg, 'success')
+      } else {
+        success_respone(res.msg, 'error')
       }
-      tableData.value = res[0]['res_name_nums']
-      success_respone()
       // if (res.nums) {
       //  
       // proxy.$message.success("识别成功！！！");
@@ -169,11 +175,11 @@ export default {
       // }
       // proxy.$refs.upload.clearFiles()
     }
-    const success_respone = () => {
+    const success_respone = (msg: string, type: any) => {
       ElNotification({
         title: '通知',
-        message: '识别成功,点击图片可预览!',
-        type: 'success',
+        message: msg,
+        type
       })
     }
     // 图片预览小哥哥
@@ -227,7 +233,8 @@ export default {
       uploadFile, submitData, onExceed,
       previewFile, dialogVisible, dialogImageUrl,
       distinguishPhoto, ...toRefs(srcRes), getObjectURL, previewImg,
-      tableData, handleChangePic
+      handleClickItem,
+      tableData, handleChangePic,
     }
   }
 }
