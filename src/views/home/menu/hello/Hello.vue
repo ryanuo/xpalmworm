@@ -4,7 +4,7 @@
  * @Date: 2021-11-29 13:24:10
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-18 21:29:07
+ * @LastEditTime: 2021-12-19 15:02:52
  * @LastEditors: Harry
 -->
 <template>
@@ -133,7 +133,7 @@ export default {
     })
     let tableData = ref([])
     const uploadFile = async function (params: any) {
-      console.log("uploadFile", params);
+      // console.log("uploadFile", params);
       const urlback = process.env.NODE_ENV == 'dev' ? 'http://localhost:5000/' : "https://detect.mr90.top/";
       const _file = params['file'];
       // const isLt2M = _file.size / 1024 / 1024 < 2;
@@ -144,7 +144,7 @@ export default {
         "Content-Type": 'application/x-www-form-urlencoded'
       }
       const { data: res } = await proxy.$http.post('/v5/detect', formData, headers)
-      console.log(res);
+      // console.log(res);
       if (res.status_code !== -2) {
         srcRes.srcList[1] = urlback + res[0].out_file_img
         srcRes.srcList[0] = getObjectURL(params['file'])
@@ -161,6 +161,7 @@ export default {
           }
         }
         tableData.value = res[0]['res_name_nums']
+        // console.log(res);
         success_respone(res.msg, 'success')
       } else {
         success_respone(res.msg, 'error')
@@ -309,6 +310,13 @@ export default {
   width: 20%;
   @media only screen and(max-width:800px) {
     width: 40%;
+  }
+}
+.el_img_res {
+  .img_l {
+    @media only screen and(max-width:800px) {
+      padding: 0;
+    }
   }
 }
 

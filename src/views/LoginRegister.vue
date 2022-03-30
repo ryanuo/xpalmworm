@@ -7,15 +7,16 @@
         <LoginForm :loginUser="loginUser" :rules="rules" />
 
         <!-- 注册 -->
-        <RegisterForm :registerUser="registerUser" :registerRules="registerRules" />
+        <!-- <RegisterForm :registerUser="registerUser" :registerRules="registerRules" /> -->
       </div>
     </div>
     <!-- 左右切换动画 -->
     <div class="panels-container">
       <div class="panel left-panel">
         <div class="content">
-          <h3>学习是为了有更多的选择,让生活变的更美好!</h3>
-          <button @click="signUpMode = !signUpMode" class="btn transparent">注册</button>
+          <h3>学习是为了有更多的选择!</h3>
+          <h3>让生活变的更美好!</h3>
+          <!-- <button @click="signUpMode = !signUpMode" class="btn transparent">注册</button> -->
         </div>
         <img src="@/assets/img/log.svg" class="image" />
       </div>
@@ -31,25 +32,24 @@
   </div>
 </template>
 <script lang="ts">
-import { ref, getCurrentInstance } from "vue";
+import { ref } from "vue";
 import { loginUser, rules } from "@/utils/samll/loginValidators";
-import { registerUser, registerRules } from "@/utils/samll/registerValidators";
+// import { registerUser, registerRules } from "@/utils/samll/registerValidators";
 import LoginForm from "@/components/loginReg/LoginForm.vue";
-import RegisterForm from "@/components/loginReg/RegisterForm.vue";
+// import RegisterForm from "@/components/loginReg/RegisterForm.vue";
 export default {
   name: "LoginRegister",
-  components: { LoginForm, RegisterForm },
+  components: { LoginForm },
+  // RegisterForm
   setup() {
-    // @ts-ignore
-    const { proxy } = getCurrentInstance();
     const signUpMode = ref<boolean>(false);
 
     return {
       signUpMode,
       loginUser,
       rules,
-      registerUser,
-      registerRules,
+      // registerUser,
+      // registerRules,
     };
   },
 };
@@ -260,7 +260,7 @@ export default {
   }
   .signin-signup {
     width: 100%;
-    top: 120%;
+    top: 67%;
     transform: translate(-50%, -100%);
     transition: 1s 0.8s ease-in-out;
   }

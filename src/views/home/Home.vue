@@ -19,7 +19,7 @@
             router
           >
             <el-menu-item
-              v-for="(item) in menuList"
+              v-for="item in menuList"
               :key="item.id"
               :index="'/' + item.path"
               :title="item.authname"
@@ -28,7 +28,12 @@
               <template #title>
                 <img
                   class="img_w"
-                  :src="'image/icon/' + (ispathActive == '/' + item.path ? '_' : '') + item.path + '.png'"
+                  :src="
+                    'image/icon/' +
+                    (ispathActive == '/' + item.path ? '_' : '') +
+                    item.path +
+                    '.png'
+                  "
                   :alt="item.authname"
                 />
                 <span class="_isactive">{{ item.authname }}</span>
@@ -46,63 +51,52 @@
   </div>
 </template>
 <script lang="ts">
-import { ref, getCurrentInstance, reactive, onMounted } from "vue";
-import { menuList } from '@/utils/samll/menuList'
+import { ref } from "vue";
+import { menuList } from "@/utils/samll/menuList";
 // import debounce_merge from "@/utils/debounce";
-import DbHeader from '@/components/header/DbHeader.vue'
+import DbHeader from "@/components/header/DbHeader.vue";
 export default {
   name: "Home",
   components: {
-    DbHeader
+    DbHeader,
   },
   setup() {
     // let isCollapsed = ref(false)
     const judgeTime = () => {
-      const t = new Date()
-      const h = t.getHours()
+      const t = new Date();
+      const h = t.getHours();
       if (h > 20 && h > 0 && h < 7) {
-        changeSkin('dark')
+        changeSkin("dark");
       }
-    }
-    judgeTime()
+    };
+    judgeTime();
     // type为night或者day
     const changeSkin = (type: string): void => {
       // 节流防止疯狂点击
-      let change = null
+      let change = null;
       if (change) {
-        clearTimeout(change)
+        clearTimeout(change);
       }
       change = setTimeout(() => {
-        document.head.querySelector('#skin')!.setAttribute('href', `./css/theme/${type}.css`)
-      }, 100)
-    }
-    const handleOpen = function () { }
-    const handleClose = function () { }
+        document.head
+          .querySelector("#skin")!
+          .setAttribute("href", `./css/theme/${type}.css`);
+      }, 100);
+    };
+    const handleOpen = function () {};
+    const handleClose = function () {};
     // 点击跳转
-    let ispathActive = ref<string>('/home')
+    let ispathActive = ref<string>("/home");
     const pathActive = function (path: string) {
-      sessionStorage.setItem('ispathActive', path);
-      ispathActive.value = path
-    }
+      sessionStorage.setItem("ispathActive", path);
+      ispathActive.value = path;
+    };
     // 当页面打开时判断选中的状态
     const getActive = function () {
-      const isActive = sessionStorage.getItem('ispathActive')
-      if (isActive) return ispathActive.value = isActive
-    }
-    getActive()
-    // let screenWidth = ref('')
-    // const fn = function () {
-    //   let widthClient = document.body.clientWidth
-    //   console.log(widthClient);
-    //   if (widthClient == 375) { 
-
-    //   }
-    // }
-    // // 计算窗口大小/ 介入防抖机制
-    // const countClient = debounce_merge(fn, 200)
-    // onMounted(() => {
-    //   window.addEventListener('resize', countClient)
-    // })
+      const isActive = sessionStorage.getItem("ispathActive");
+      if (isActive) return (ispathActive.value = isActive);
+    };
+    getActive();
     return {
       changeSkin,
       menuList,
@@ -110,10 +104,10 @@ export default {
       handleOpen,
       handleClose,
       pathActive,
-      ispathActive
-    }
+      ispathActive,
+    };
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 .el-c {

@@ -4,7 +4,7 @@
  * @Date: 2021-12-02 18:06:24
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-18 23:08:23
+ * @LastEditTime: 2021-12-19 15:01:13
  * @LastEditors: Harry
 -->
 <template>
@@ -21,23 +21,17 @@
                 v-if="props.row.pest_name"
                 :src="url_f + props.row.pest_name + '.jpg'"
                 :preview-src-list="srcList"
-                :hide-on-click-modal="false"
                 :initial-index="1"
                 @click.stop="handleClickItem"
               ></el-image>
             </template>
-            <!-- <img
-                v-if="props.row.pest_name"
-                class="cover_w"
-                :src=""
-            />-->
           </el-table-column>
           <el-table-column align="center" prop="pest_name" label="害虫名称" width="120" />
           <el-table-column align="center" prop="cate_sk" label="类别" width="150">
             <template #default="props">
               <!-- {{props.row.cate_sk}} -->
               <el-tag type="success" v-if="props.row.cate_sk">{{ props.row.cate_sk.split(',')[0] }}</el-tag>
-              <el-tag v-if="props.row.cate_sk">{{ fg(props.row.cate_sk, ',', 1) }}</el-tag>
+              <el-tag v-if="props.row.cate_sk">{{ props.row.cate_sk.split(',')[1] }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="harm_host" label="危害寄主" width="260" />
@@ -70,7 +64,7 @@
       background
       v-model:currentPage="currentPage"
       :page-sizes="[5, 10, 20, 50]"
-      :page-size="pagesize"
+      v-model:page-size="pagesize"
       layout="sizes, prev, pager, next, jumper"
       @size-change="handleSizeChange"
       @current-change="currentChange"
@@ -82,9 +76,10 @@
 <script lang="ts">
 import { handleClickItem } from '@/utils/samll/maskdia'
 import { melists } from '@/utils/samll/zixunlists'
-import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from "@vue/runtime-core"
+import { getCurrentInstance, onMounted, reactive, ref, toRefs } from "@vue/runtime-core"
 export default {
   name: "Rank",
+  // emits: ["handleSizeChange", "currentChange", 'handleClickItem'],
   setup() {
     // 获取数据
     // @ts-ignore
@@ -99,7 +94,7 @@ export default {
       srcList: []
     })
     // 图片的链接地址
-    const url_f = process.env.NODE_ENV == 'dev' ? 'http://192.168.1.100:5000/static/images/' : 'https://detect.mr90.top/static/images/'
+    const url_f = process.env.NODE_ENV == 'dev' ? 'http://192.168.1.100:5000/images/' : 'https://detect.mr90.top/images/'
     // console.log(process.env.NODE_ENV);
     const handleClick = async function (tab: string, event: string) {
       getMedList()
@@ -136,11 +131,6 @@ export default {
       }
       proxy.$http.delete('/insects', { data })
     }
-    const fg = computed(() => {
-      return function (str: string, format: string, index: number) {
-        return str.split(format)[index]
-      }
-    })
     onMounted(() => {
       // 获取数据
       // console.log('object');
@@ -151,7 +141,8 @@ export default {
       handleSizeChange,
       currentChange,
       editCurrentUser, deleteUser,
-      activeName, handleClick, melist, fg, url_f, handleClickItem
+      activeName, handleClick, melist,
+      url_f, handleClickItem
     }
   }
 }

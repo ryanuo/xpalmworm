@@ -4,7 +4,7 @@
  * @Date: 2021-12-02 18:06:24
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-15 20:33:33
+ * @LastEditTime: 2021-12-18 23:27:17
  * @LastEditors: Harry
 -->
 <template>
@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { getCurrentInstance, onMounted, reactive, ref, toRefs } from "@vue/runtime-core"
+import { getCurrentInstance, onMounted, reactive, toRefs } from "@vue/runtime-core"
 export default {
   name: "Rank",
   setup() {
@@ -67,13 +67,13 @@ export default {
     // @ts-ignore
     const { proxy } = getCurrentInstance()
     const fn = reactive({
-      editCurrentUser: function (key: Object) { },
-      deleteUser: function (key: Object) { },
       currentPage: 1,
       tableData: [],
       pagesize: 5,
       total: 0
     })
+    const editCurrentUser = function (key: Object) { }
+    const deleteUser = function (key: Object) { }
     const handleSizeChange = function (size: number) {
       fn.pagesize = size
       getRankList()
@@ -103,7 +103,9 @@ export default {
     return {
       ...toRefs(fn),
       handleSizeChange,
-      currentChange
+      currentChange,
+      editCurrentUser,
+      deleteUser
     }
   }
 }

@@ -7,14 +7,26 @@
     class="loginForm sign-in-form"
   >
     <el-form-item label="邮箱" prop="email">
-      <el-input v-model="loginUser.email" placeholder="Enter Email..."></el-input>
+      <el-input
+        v-model="loginUser.email"
+        placeholder="Enter Email..."
+      ></el-input>
     </el-form-item>
     <el-form-item label="密码" prop="password">
-      <el-input v-model="loginUser.password" type="password" placeholder="Enter Password..."></el-input>
+      <el-input
+        v-model="loginUser.password"
+        type="password"
+        placeholder="Enter Password..."
+      ></el-input>
     </el-form-item>
 
     <el-form-item>
-      <el-button @click="handleLogin('loginForms')" type="primary" class="submit-btn">提交</el-button>
+      <el-button
+        @click="handleLogin('loginForms')"
+        type="primary"
+        class="submit-btn"
+        >提交</el-button
+      >
     </el-form-item>
 
     <!-- 找回密码 -->
@@ -29,8 +41,9 @@
 
 <script lang="ts">
 import Base64 from "@/utils/samll/base64";
-import { ref, getCurrentInstance, onMounted } from "vue";
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { getCurrentInstance } from "vue";
+import { ElMessage, ElMessageBox } from "element-plus";
+import { loginAuth } from "@/utils/api/getData";
 export default {
   props: {
     loginUser: {
@@ -47,39 +60,39 @@ export default {
     const { proxy } = getCurrentInstance();
     const open = function (params: Object) {
       ElMessageBox.confirm(
-        '你的账户还未激活，选择激活我们将给您的邮箱发送一个激活地址，进入邮箱中确认激活哦',
-        '激活账户',
+        "你的账户还未激活，选择激活我们将给您的邮箱发送一个激活地址，进入邮箱中确认激活哦",
+        "激活账户",
         {
           distinguishCancelAndClose: true,
-          confirmButtonText: '激活',
-          cancelButtonText: '取消',
+          confirmButtonText: "激活",
+          cancelButtonText: "取消",
         }
       )
         .then(async () => {
-          let data = params
-          const { data: res } = await proxy.$http.put('/isactive', data)
+          let data = params;
+          const { data: res } = await proxy.$http.put("/isactive", data);
           if (res.status_code == 1) {
             ElMessage({
-              type: 'success',
-              message: '我们给您的邮箱发送已发送激活地址',
-            })
+              type: "success",
+              message: "我们给您的邮箱发送已发送激活地址",
+            });
           }
         })
         .catch((action) => {
           ElMessage({
-            type: 'info',
+            type: "info",
             message:
-              action === 'cancel'
-                ? 'Changes discarded. Proceeding to a new route.'
-                : 'Stay in the current route',
-          })
-        })
-    }
+              action === "cancel"
+                ? "Changes discarded. Proceeding to a new route."
+                : "Stay in the current route",
+          });
+        });
+    };
     // 触发登录方法
     const handleLogin = (formName: string) => {
       proxy.$refs[formName].validate((valid: boolean) => {
         if (valid) {
-          FormData()
+          FormData();
           // alert("submit!");
         } else {
           console.log("error submit!!");
@@ -89,37 +102,32 @@ export default {
     };
     // 进行表单的提交
     const FormData = async function () {
-      const { email, password } = proxy.loginUser
-      const { data: res } = await proxy.$http.get('/api', {
+      const { email, password } = proxy.loginUser;
+      const { data: res } = await loginAuth({
         params: {
-          email, password
-        }
-      })
+          email,
+          password,
+        },
+      });
       if (res.status_code == 1) {
-        let bs = new Base64()
+        let bs = new Base64();
         for (let i in res.data) {
-          if (typeof res.data[i] == 'string') {
-            res.data[i] = bs.encode(res.data[i]) // 进行加密处理
+          if (typeof res.data[i] == "string") {
+            res.data[i] = bs.encode(res.data[i]); // 进行加密处理
           }
         }
-        localStorage.setItem('token', JSON.stringify(res.data))
+        localStorage.setItem("token", JSON.stringify(res.data));
         // console.log(res.data.username);
-        proxy.$cookie.setCookie('e_id', res.data.email)
-        proxy.$cookie.setCookie('u_id', res.data.username)
-        proxy.$message.success(res.msg)
-        proxy.$router.replace('/home')
+        proxy.$cookie.setCookie("e_id", res.data.email);
+        proxy.$cookie.setCookie("u_id", res.data.username);
+        proxy.$message.success(res.msg);
+        proxy.$router.replace("/home");
       } else if (res.status_code == -2) {
-        open({ email, password })
-      }
-      else {
+        open({ email, password });
+      } else {
         proxy.$message.error(res.msg);
       }
-    }
-
-    onMounted(() => {
-      // console.log(proxy);
-    })
-
+    };
     return { handleLogin, open };
   },
 };

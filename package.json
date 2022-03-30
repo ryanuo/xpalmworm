@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --mode dev",
     "build.test": "vue-cli-service build --mode test",
-    "build": "vue-cli-service build --mode pro",
+    "build": "vue-cli-service build --mode pro --no-clean",
     "gh": "gh-pages -d dist-pro"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "element-plus": "^1.0.1-beta.3",
     "gh-pages": "^3.2.3",
     "node-sass": "^4.14.1",
+    "sass-loader": "^7.1.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
@@ -27,7 +28,6 @@
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
-    "sass-loader": "^7.3.1",
     "typescript": "~3.9.3"
   }
 }

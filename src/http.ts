@@ -1,6 +1,15 @@
+/*
+ * @Author: Harry
+ * @Date: 2021-11-27 20:50:49
+ * @LastEditors: harry
+ * @Github: https://github.com/rr210
+ * @LastEditTime: 2022-03-30 15:27:17
+ * @FilePath: \xpalmworm\src\http.ts
+ */
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ElLoading } from 'element-plus';
 axios.defaults.withCredentials = true
+axios.defaults.baseURL = process.env.VUE_APP_URL
 let loading: any;
 
 const startLoading = () => {
