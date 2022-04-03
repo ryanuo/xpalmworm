@@ -190,3 +190,7 @@ div .el-image[data-v-ca63be76] .el-image__preview {
 	height: 80px;
 	border-radius: 10%;
 }
+
+div.el-image-viewer__actions{
+	z-index: 20000;
+}
