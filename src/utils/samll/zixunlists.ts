@@ -4,8 +4,8 @@
  * @Date: 2021-11-29 14:45:09
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-17 18:21:07
- * @LastEditors: Harry
+ * @LastEditTime: 2022-03-30 17:03:58
+ * @LastEditors: harry
  */
 interface ZxLists {
   name: string,
@@ -64,9 +64,9 @@ const melists: MeLists[] = [
     uid: 3
   },
   {
-    name: '药用植物根部害虫',
-    label: '药用植物根部害虫',
-    file_name: "药用植物根部害虫",
+    name: '根部害虫',
+    label: '根部害虫',
+    file_name: "根部害虫",
     uid: 1
   }
 ]

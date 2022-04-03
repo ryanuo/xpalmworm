@@ -4,7 +4,7 @@
  * @Date: 2021-11-28 21:41:04
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-30 15:49:46
+ * @LastEditTime: 2022-03-30 16:53:31
  * @LastEditors: harry
 -->
 <template>
@@ -107,7 +107,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref, toRefs } from "@vue/reactivity";
+import { reactive, toRefs } from "@vue/reactivity";
 import { zxlists } from "@/utils/samll/zixunlists";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { getNewsList, deleteNews } from "@/utils/api/getData";

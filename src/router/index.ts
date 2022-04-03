@@ -1,3 +1,11 @@
+/*
+ * @Author: Harry
+ * @Date: 2021-11-27 20:50:49
+ * @LastEditors: harry
+ * @Github: https://github.com/rr210
+ * @LastEditTime: 2022-03-30 16:10:22
+ * @FilePath: \xpalmworm\src\router\index.ts
+ */
 import { createRouter, createWebHashHistory } from 'vue-router'
 import $cookie from '@/utils/samll/cookieConfig'
 
@@ -36,6 +44,11 @@ const routes = [
         path: "/user",
         name: 'User',
         component: () => import('../views/home/menu/user/User.vue')
+      },
+      {
+        path: "/banner",
+        name: 'Banner',
+        component: () => import('../views/home/menu/banner/Banner.vue')
       },
       {
         path: "/rank",

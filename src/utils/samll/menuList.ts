@@ -4,8 +4,8 @@
  * @Date: 2021-11-28 20:53:11
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-16 12:52:30
- * @LastEditors: Harry
+ * @LastEditTime: 2022-03-30 16:11:50
+ * @LastEditors: harry
  */
 // 菜单列表
 interface MenuList {
@@ -33,6 +33,11 @@ const menuList: MenuList[] = [
     authname: "收藏管理",
     path: "collection",
     // children: []
+  },
+  {
+    id: 8,
+    authname: "轮播图管理",
+    path: "banner",
   },
   {
     id: 7,
