@@ -4,7 +4,7 @@
  * @Date: 2021-11-28 20:53:11
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-30 16:11:50
+ * @LastEditTime: 2022-05-12 20:31:46
  * @LastEditors: harry
  */
 // 菜单列表
@@ -30,8 +30,8 @@ const menuList: MenuList[] = [
   },
   {
     id: 3,
-    authname: "收藏管理",
-    path: "collection",
+    authname: "历史管理",
+    path: "history",
     // children: []
   },
   {
@@ -52,8 +52,8 @@ const menuList: MenuList[] = [
   },
   {
     id: 6,
-    authname: "积分管理",
-    path: "rank"
+    authname: "模型管理",
+    path: "module"
   },
   {
     id: 5,

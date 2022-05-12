@@ -3,7 +3,7 @@
  * @Date: 2022-03-30 16:07:34
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-04-03 15:32:53
+ * @LastEditTime: 2022-05-12 22:02:16
  * @FilePath: \xpalmworm\src\views\home\menu\banner\Banner.vue
 -->
 <template>
@@ -17,32 +17,24 @@
       <el-table-column align="center" type="index" label="#" width="50" />
       <el-table-column align="center" label="封面图">
         <template #default="props">
-          <el-image
-            style="width: 100px; height: 100px"
-            :src="handlePic + props.row.pic"
-            :preview-src-list="srcList"
-            :initial-index="4"
-            fit="cover"
-          />
+          <el-image style="width: 100px; height: 100px" :src="handlePic + props.row.pic" :preview-src-list="srcList"
+            :initial-index="4" fit="cover" />
+          <!-- <img class="cover_w" :src="handlePic + props.row.pic" /> -->
+        </template>
+      </el-table-column>
+      <el-table-column align="center" type="link" label="地址">
+        <template #default="props">
+          <el-button>
+            <a :href="props.row.link" target="_blank" rel="noopener noreferrer">{{ props.row.link }}</a>
+          </el-button>
           <!-- <img class="cover_w" :src="handlePic + props.row.pic" /> -->
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作">
         <template #default="props">
-          <el-button
-            type="primary"
-            icon="el-icon-edit"
-            size="mini"
-            @click="editCurrentUser(props.row)"
-            circle
-          ></el-button>
-          <el-button
-            type="danger"
-            size="mini"
-            icon="el-icon-delete"
-            @click="deleteUser(props.row)"
-            circle
-          ></el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="editCurrentUser(props.row)" circle>
+          </el-button>
+          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteUser(props.row)" circle></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -50,15 +42,10 @@
   <!-- 资讯弹窗 -->
   <el-dialog v-model="editBannerAdd" title="添加banner图" width="50%" :before-close="handleClose">
     <el-form ref="SubmitEditRef">
+      <h2 style="margin:10px 0">上传图片</h2>
       <el-form-item>
-        <el-upload
-          action="#"
-          :on-change="onChange"
-          :file-list="fileLists"
-          list-type="picture-card"
-          :auto-upload="false"
-          :on-remove="RemovePic"
-        >
+        <el-upload action="#" :on-change="onChange" :file-list="fileLists" list-type="picture-card" :auto-upload="false"
+          :on-remove="RemovePic">
           <el-icon>
             <Plus />
           </el-icon>
@@ -71,11 +58,7 @@
                     <zoom-in />
                   </el-icon>
                 </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
-                  @click="handleRemove(file)"
-                >
+                <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
                   <el-icon>
                     <Delete />
                   </el-icon>
@@ -86,6 +69,9 @@
         </el-upload>
       </el-form-item>
       <!-- 修改文件名称 -->
+      <el-form-item label="轮播图资讯网址">
+        <el-input v-model="linkDetail" />
+      </el-form-item>
       <el-form-item>
         <span class="dialog-footer">
           <el-button @click="editBannerAdd = false">取消</el-button>
@@ -96,32 +82,23 @@
   </el-dialog>
   <el-dialog v-model="editBanner" title="编辑轮播图" width="50%" :before-close="handleClose">
     <el-form ref="SubmitEditRef">
+      <h2 style="margin:10px 0">更新图片</h2>
       <el-form-item>
-        <el-upload
-          action="#"
-          :on-change="onChange"
-          :file-list="fileLists"
-          list-type="picture-card"
-          :auto-upload="false"
-          :on-remove="RemovePic"
-        >
+        <el-upload action="#" :on-change="onChange" :file-list="fileLists" list-type="picture-card" :auto-upload="false"
+          :on-remove="RemovePic">
           <el-icon>
             <Plus />
           </el-icon>
           <template #file="{ file }">
             <div>
-              <img class="el-upload-list__item-thumbnail" :src="file.url" />
+              <img class="el-upload-list__item-thumbnail" :src="file.url" ref="beforePicRef" />
               <span class="el-upload-list__item-actions">
                 <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
                   <el-icon>
                     <zoom-in />
                   </el-icon>
                 </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
-                  @click="handleRemove(file)"
-                >
+                <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
                   <el-icon>
                     <Delete />
                   </el-icon>
@@ -130,6 +107,14 @@
             </div>
           </template>
         </el-upload>
+      </el-form-item>
+      <el-form-item label="轮播图资讯网址">
+        <el-input v-model="linkDetail" />
+        <el-button>
+          <a :href="linkDetail" target="_blank" rel="noopener noreferrer">
+            点击跳转
+          </a>
+        </el-button>
       </el-form-item>
       <!-- 修改文件名称 -->
       <el-form-item>
@@ -150,20 +135,23 @@ interface BS {
   editBanner: Boolean,
   fileLists: any[],
   bid: number,
+  linkDetail: string,
   fileData: any,
   beforePicName: string,
   editBannerAdd: Boolean
 }
 import { getBannerList } from "@/utils/api/getData";
 import { reactive, toRefs } from "@vue/reactivity";
-import { computed, onMounted } from "@vue/runtime-core";
+import { computed, onMounted, getCurrentInstance } from "@vue/runtime-core";
 import { ElNotification, ElMessageBox } from 'element-plus';
 import debounce_merge from '@/utils/samll/debounce';
 import { UpdateBanner, AddBanner, deleteBanner } from '@/utils/api/getData'
+// import { getCurrentInstance } from 'vue'
 // import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'
 export default {
   name: "Banner",
   setup() {
+    const { proxy } = getCurrentInstance() as any
     const state = reactive<BS>({
       bannerList: [],
       tableData: [],
@@ -171,6 +159,7 @@ export default {
       editBanner: false,
       fileLists: [],
       bid: 0,
+      linkDetail: '',
       fileData: null,
       beforePicName: '',
       editBannerAdd: false
@@ -178,11 +167,12 @@ export default {
     // 编辑轮播图
     const editCurrentUser = function (p: any) {
       console.log(p);
-      const { pic, bid } = p
+      const { pic, bid, link } = p
       state.bid = bid
       state.editBanner = true
       state.fileLists[0] = { bid: state.bid, url: handlePic.value + pic }
       state.beforePicName = pic
+      state.linkDetail = link
     }
     // 处理页面的图片信息
     const handlePic = computed(() => {
@@ -202,7 +192,7 @@ export default {
     // 上传图片
     const updatePic = function () {
       const { bid } = state.fileLists[0]
-      const obj: any = { bid, file_: state.fileData, beforename: state.beforePicName }
+      const obj: any = { bid, file_: state.fileData, beforename: state.beforePicName, link: state.linkDetail, mode: !state.fileData ? 0 : 1 }
       const formdata = new FormData()
       for (let i in obj) {
         formdata.append(i, obj[i])
@@ -222,6 +212,10 @@ export default {
       state.fileData = uploadFile.raw
       console.log(uploadFile);
     }
+    // const objwatch = watch(() => state, (old, newvalue) => {
+    //   console.log(old);
+    //   console.log(newvalue);
+    // })
     // 提交修改后的信息
     const editBannerBackData = debounce_merge(async function (ref: any) {
       // console.log(proxy.refs.ref);
@@ -275,6 +269,7 @@ export default {
       state.beforePicName = ''
       state.editBannerAdd = false
       state.editBanner = false
+      state.linkDetail = ''
     }
     // 删除图片
     const deleteUser = function (e: any) {
@@ -314,7 +309,8 @@ export default {
       editBannerBackData,
       onChange,
       addBannerList,
-      handlePic,
+      handlePic
+      // objwatch
     };
   },
 };

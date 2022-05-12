@@ -3,7 +3,7 @@
  * @Date: 2022-03-30 15:28:26
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-04-03 15:20:53
+ * @LastEditTime: 2022-05-12 22:59:49
  * @FilePath: \xpalmworm\src\utils\api\getData\index.ts
  */
 import axios from '@/http'
@@ -47,4 +47,8 @@ export function AddBanner(params: {}) {
 // 获取害虫数据
 export function getInsectsList(params: {}) {
     return axios.get(rApi.INSECTS_URL, params)
+}
+
+export function getAnalysis(){
+    return axios.get(rApi.ANALYSIS)
 }

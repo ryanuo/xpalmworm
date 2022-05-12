@@ -3,7 +3,7 @@
  * @Date: 2021-11-27 20:50:49
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-30 16:10:22
+ * @LastEditTime: 2022-05-12 22:42:31
  * @FilePath: \xpalmworm\src\router\index.ts
  */
 import { createRouter, createWebHashHistory } from 'vue-router'
@@ -31,9 +31,9 @@ const routes = [
         component: () => import('../views/home/menu/hello/Hello.vue')
       },
       {
-        path: "/collection",
-        name: 'Collection',
-        component: () => import('../views/home/menu/collection/Collection.vue')
+        path: "/module",
+        name: 'Module',
+        component: () => import('../views/home/menu/modules/Module.vue')
       },
       {
         path: "/med1",
@@ -51,9 +51,9 @@ const routes = [
         component: () => import('../views/home/menu/banner/Banner.vue')
       },
       {
-        path: "/rank",
-        name: 'Rank',
-        component: () => import('../views/home/menu/rank/Rank.vue')
+        path: "/history",
+        name: 'History',
+        component: () => import('../views/home/menu/history/History.vue')
       },
       {
         path: "/setting",

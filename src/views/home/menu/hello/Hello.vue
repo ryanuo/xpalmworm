@@ -4,8 +4,8 @@
  * @Date: 2021-11-29 13:24:10
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-19 15:02:52
- * @LastEditors: Harry
+ * @LastEditTime: 2022-05-12 20:37:59
+ * @LastEditors: harry
 -->
 <template>
   <h2 class="h2_w">上传识别</h2>
@@ -13,50 +13,26 @@
     <el-row class="el_img_res">
       <el-col :span="12">
         <div class="img_l">
-          <el-image
-            style="width: 80%;"
-            :src="srcList[0]"
-            :preview-src-list="srcList"
-            :initial-index="0"
-            @click.stop="handleClickItem"
-          ></el-image>
+          <el-image style="width: 80%;" :src="srcList[0]" :preview-src-list="srcList" :initial-index="0"
+            @click.stop="handleClickItem"></el-image>
         </div>
       </el-col>
       <el-col :span="12">
         <div class="img_l">
-          <el-image
-            style="width: 80%;"
-            :src="srcList[1]"
-            :preview-src-list="srcList"
-            :initial-index="1"
-            :hide-on-click-modal="true"
-            @click.stop="handleClickItem"
-          ></el-image>
+          <el-image style="width: 80%;" :src="srcList[1]" :preview-src-list="srcList" :initial-index="1"
+            :hide-on-click-modal="true" @click.stop="handleClickItem"></el-image>
         </div>
       </el-col>
     </el-row>
   </div>
-  <el-upload
-    v-if="isShow"
-    ref="upload"
-    :auto-upload="true"
-    class="upload-demo"
-    drag
-    action
-    capture="camera"
-    :http-request="uploadFile"
-    :on-change="handleChangePic"
-    accept=".jpg, .png, .jpeg"
-    :limit="1"
-  >
+  <el-upload v-if="isShow" ref="upload" :auto-upload="true" class="upload-demo" drag action capture="camera"
+    :http-request="uploadFile" :on-change="handleChangePic" accept=".jpg, .png, .jpeg" :limit="1">
     <!-- :on-exceed="onExceed" -->
     <div class="upload_f">
       <div class="up_svg">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" data-v-152cbb9b>
-          <path
-            fill="currentColor"
-            d="M544 864V672h128L512 480 352 672h128v192H320v-1.6c-5.376.32-10.496 1.6-16 1.6A240 240 0 0 1 64 624c0-123.136 93.12-223.488 212.608-237.248A239.808 239.808 0 0 1 512 192a239.872 239.872 0 0 1 235.456 194.752c119.488 13.76 212.48 114.112 212.48 237.248a240 240 0 0 1-240 240c-5.376 0-10.56-1.28-16-1.6v1.6H544z"
-          />
+          <path fill="currentColor"
+            d="M544 864V672h128L512 480 352 672h128v192H320v-1.6c-5.376.32-10.496 1.6-16 1.6A240 240 0 0 1 64 624c0-123.136 93.12-223.488 212.608-237.248A239.808 239.808 0 0 1 512 192a239.872 239.872 0 0 1 235.456 194.752c119.488 13.76 212.48 114.112 212.48 237.248a240 240 0 0 1-240 240c-5.376 0-10.56-1.28-16-1.6v1.6H544z" />
         </svg>
       </div>
     </div>
@@ -67,18 +43,8 @@
   </el-upload>
   <!-- 重新上传的窗口 -->
   <el-button type="info" class="btn_re" v-if="!isShow">
-    <el-upload
-      id="el-upload"
-      ref="upload"
-      :auto-upload="true"
-      drag
-      action
-      :http-request="uploadFile"
-      :on-change="handleChangePic"
-      capture="camera"
-      accept=".jpg, .png, .jpeg"
-      :limit="1"
-    ></el-upload>重新上传
+    <el-upload id="el-upload" ref="upload" :auto-upload="true" drag action :http-request="uploadFile"
+      :on-change="handleChangePic" capture="camera" accept=".jpg, .png, .jpeg" :limit="1"></el-upload>重新上传
     <!-- :on-exceed="onExceed" -->
   </el-button>
   <!-- 第二个 按钮 -->
@@ -134,7 +100,7 @@ export default {
     let tableData = ref([])
     const uploadFile = async function (params: any) {
       // console.log("uploadFile", params);
-      const urlback = process.env.NODE_ENV == 'dev' ? 'http://localhost:5000/' : "https://detect.mr90.top/";
+      const urlback = process.env.NODE_ENV == 'dev' ? 'http://localhost:5051/' : "https://detect.mr90.top/";
       const _file = params['file'];
       // const isLt2M = _file.size / 1024 / 1024 < 2;
       // 通过 FormData 对象上传文件
@@ -143,7 +109,7 @@ export default {
       const headers = {
         "Content-Type": 'application/x-www-form-urlencoded'
       }
-      const { data: res } = await proxy.$http.post('/v5/detect', formData, headers)
+      const { data: res } = await proxy.$http.post('/v5/upload', formData, headers)
       // console.log(res);
       if (res.status_code !== -2) {
         srcRes.srcList[1] = urlback + res[0].out_file_img
@@ -249,6 +215,7 @@ export default {
   //   width: 1%%;
   // }
 }
+
 .upload_f {
   width: 100%;
   height: 70%;
@@ -257,6 +224,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+
   .up_svg {
     width: 120px;
     height: 100%;
@@ -265,35 +233,43 @@ export default {
     // left: 50%;
   }
 }
+
 .el_img_res {
   display: flex;
   justify-content: center;
   align-items: center;
+
   .img_l {
     padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+
     img {
       width: 100%;
       border-radius: 10px;
     }
   }
 }
+
 .btn_re {
   margin: 10px 0;
 }
+
 .handle_btn {
   display: flex;
   padding: 20px 0;
 }
+
 .el-row-btn {
   display: flex;
   align-items: center;
   padding: 10px 0;
 }
+
 .h2_item {
   font-size: 14px;
+
   em {
     color: var(--themeColor);
   }
@@ -308,10 +284,12 @@ export default {
 .el-image {
   padding: 50px 0;
   width: 20%;
+
   @media only screen and(max-width:800px) {
     width: 40%;
   }
 }
+
 .el_img_res {
   .img_l {
     @media only screen and(max-width:800px) {
