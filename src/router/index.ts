@@ -3,7 +3,7 @@
  * @Date: 2021-11-27 20:50:49
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-05-12 22:42:31
+ * @LastEditTime: 2022-05-31 19:21:27
  * @FilePath: \xpalmworm\src\router\index.ts
  */
 import { createRouter, createWebHashHistory } from 'vue-router'
@@ -81,7 +81,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/login') return next()
+  if (to.path === '/login') {
+    sessionStorage.setItem('ispathActive','/home')
+    return next()
+  }
   const token = localStorage.getItem('token')
   if (!token) return next('/login')
   const { email: e_id, username: u_id } = JSON.parse(token as any)

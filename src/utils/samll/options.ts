@@ -3,11 +3,10 @@
  * @Date: 2022-05-12 22:19:38
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-05-12 22:24:54
- * @FilePath: \xpalmworm\src\utils\samll\options.js
+ * @LastEditTime: 2022-05-14 13:42:55
+ * @FilePath: \xpalmworm\src\utils\samll\options.ts
  */
-
-export default {
+const Options: {} = {
   title: { text: '历史识别分析' },
   grid: { containLabel: true },
   xAxis: { name: 'amount' },
@@ -32,7 +31,11 @@ export default {
         x: 'amount',
         // Map the "product" column to Y axis
         y: 'product'
+      },
+      label: {
+        show: true
       }
     }
   ]
 }
+export { Options }

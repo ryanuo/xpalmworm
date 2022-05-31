@@ -3,7 +3,7 @@
  * @Date: 2022-03-30 16:07:34
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-05-12 22:02:16
+ * @LastEditTime: 2022-05-31 17:09:18
  * @FilePath: \xpalmworm\src\views\home\menu\banner\Banner.vue
 -->
 <template>
@@ -17,8 +17,8 @@
       <el-table-column align="center" type="index" label="#" width="50" />
       <el-table-column align="center" label="封面图">
         <template #default="props">
-          <el-image style="width: 100px; height: 100px" :src="handlePic + props.row.pic" :preview-src-list="srcList"
-            :initial-index="4" fit="cover" />
+          <el-image style="width: 100px; height: 100px" v-if="handlePic + props.row.pic"
+            :src="handlePic + props.row.pic" :preview-src-list="srcList" :initial-index="4" fit="cover" />
           <!-- <img class="cover_w" :src="handlePic + props.row.pic" /> -->
         </template>
       </el-table-column>
