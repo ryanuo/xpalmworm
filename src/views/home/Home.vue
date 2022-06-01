@@ -10,32 +10,16 @@
             <img src="image/page/author.png" alt="掌虫后台" />
             <span>掌虫后台</span>
           </div>
-          <el-menu
-            :default-active="ispathActive"
-            class="el-menu-vertical-demo"
-            :collapse-transition="false"
-            @open="handleOpen"
-            @close="handleClose"
-            router
-          >
-            <el-menu-item
-              v-for="item in menuList"
-              :key="item.id"
-              :index="'/' + item.path"
-              :title="item.authname"
-              @click="pathActive('/' + item.path)"
-            >
+          <el-menu :default-active="ispathActive" class="el-menu-vertical-demo" :collapse-transition="false"
+            @open="handleOpen" @close="handleClose" router>
+            <el-menu-item v-for="item in menuList" :key="item.id" :index="'/' + item.path" :title="item.authname"
+              @click="pathActive('/' + item.path)">
               <template #title>
-                <img
-                  class="img_w"
-                  :src="
-                    'image/icon/' +
-                    (ispathActive == '/' + item.path ? '_' : '') +
-                    item.path +
-                    '.png'
-                  "
-                  :alt="item.authname"
-                />
+                <img class="img_w" :src="
+                  'image/icon/' +
+                  (ispathActive == '/' + item.path ?
+                    item.path + '_' : item.path) + '.png'
+                " :alt="item.authname" />
                 <span class="_isactive">{{ item.authname }}</span>
               </template>
             </el-menu-item>
@@ -83,8 +67,8 @@ export default {
           .setAttribute("href", `./css/theme/${type}.css`);
       }, 100);
     };
-    const handleOpen = function () {};
-    const handleClose = function () {};
+    const handleOpen = function () { };
+    const handleClose = function () { };
     // 点击跳转
     let ispathActive = ref<string>("/home");
     const pathActive = function (path: string) {
@@ -113,6 +97,7 @@ export default {
 .el-c {
   padding: 18px 10px 18px 0;
 }
+
 .el-header {
   width: 100%;
   background-color: var(--skinColor);
@@ -123,6 +108,7 @@ export default {
   // height: 100vh;
   overflow: hidden;
 }
+
 .el-menu {
   width: 100%;
   background: transparent;
@@ -130,13 +116,16 @@ export default {
 }
 
 .aside-con {
+
   // background-color: var(--skinColor);
   @media only screen and (max-width: 800px) {
     display: none;
   }
+
   .el-menu {
     border-right: none;
   }
+
   .isCollapsed {
     text-align: center;
     line-height: 24px;
@@ -147,9 +136,11 @@ export default {
     // background-color: var(--skinColor);
   }
 }
+
 .el-menu-item {
   margin: 10px 0;
 }
+
 .img_w {
   width: 15%;
   margin-right: 10px;
@@ -166,12 +157,14 @@ export default {
   text-align: center;
   padding: 18px 0;
   cursor: pointer;
+
   img {
     width: 24%;
     vertical-align: middle;
     border-radius: 50%;
     margin-right: 10px;
   }
+
   span {
     color: var(--fontColor);
     font-weight: 550;
